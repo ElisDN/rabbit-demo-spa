@@ -31,3 +31,11 @@ services:
             dockerfile: php-fpm.docker
         volumes:
             - ./api:/var/www/api
+    api-php-cli:
+        build:
+            context: ./api/docker
+            dockerfile: php-cli.docker
+        volumes:
+            - ./api:/var/www/api
+        working_dir: /var/www/api
+        tty: true
