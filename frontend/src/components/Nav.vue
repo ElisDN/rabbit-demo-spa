@@ -15,6 +15,8 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><router-link class="nav-link" :to="{name: 'home'}">Home</router-link></li>
           <li class="nav-item"><router-link class="nav-link" :to="{name: 'about'}">About</router-link></li>
+          <li class="nav-item"><router-link class="nav-link" :to="{name: 'login'}">Log In</router-link></li>
+          <li class="nav-item"><router-link class="nav-link" :to="{name: 'signup'}">Sign Up</router-link></li>
         </ul>
       </div>
     </div>
