@@ -8,12 +8,7 @@ use Slim\Http\Response;
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
-$config = [
-    'settings' => [
-        'addContentLengthHeader' => false,
-    ],
-];
-
+$config = require 'config/config.php';
 $app = new \Slim\App($config);
 
 $app->get('/', function (Request $request, Response $response) {
