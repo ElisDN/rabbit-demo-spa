@@ -17,5 +17,13 @@
         "psr-4": {
             "Api\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Api\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always"
     }
 }
