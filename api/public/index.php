@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Api\Http\Action;
 use Symfony\Component\Dotenv\Dotenv;
 
 chdir(dirname(__DIR__));
@@ -16,6 +15,6 @@ $config = require 'config/config.php';
 $container = new \Slim\Container($config);
 $app = new \Slim\App($container);
 
-$app->get('/', Action\HomeAction::class . ':handle');
+(require 'config/routes.php')($app);
 
 $app->run();
