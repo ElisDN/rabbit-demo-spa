@@ -5,6 +5,7 @@
     "require": {
         "php": ">=7.1.0",
         "ext-json": "^1.5",
+        "ext-mbstring": "^7.1",
         "ramsey/uuid": "^3.8",
         "slim/slim": "^3.11",
         "symfony/dotenv": "^4.1",

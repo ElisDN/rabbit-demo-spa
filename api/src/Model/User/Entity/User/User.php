@@ -31,4 +31,39 @@ class User
         $this->confirmToken = $confirmToken;
         $this->status = self::STATUS_WAIT;
     }
+
+    public function isWait(): bool
+    {
+        return $this->status === self::STATUS_WAIT;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function getId(): UserId
+    {
+        return $this->id;
+    }
+
+    public function getDate(): \DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
+
+    public function getPasswordHash(): string
+    {
+        return $this->passwordHash;
+    }
+
+    public function getConfirmToken(): ConfirmToken
+    {
+        return $this->confirmToken;
+    }
 }
