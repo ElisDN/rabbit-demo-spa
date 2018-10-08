@@ -37,12 +37,7 @@ class User
         if ($this->isActive()) {
             throw new \DomainException('User is already active.');
         }
-        if (!$this->confirmToken->isEqualTo($token)) {
-            throw new \DomainException('Confirm token is invalid.');
-        }
-        if ($this->confirmToken->isExpiredTo($date)) {
-            throw new \DomainException('Confirm token is expired.');
-        }
+        $this->confirmToken->validate($token, $date);
         $this->status = self::STATUS_ACTIVE;
         $this->confirmToken = null;
     }
