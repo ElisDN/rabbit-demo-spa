@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Api\Http\Action;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Zend\Diactoros\Response\JsonResponse;
 
-class HomeAction
+class HomeAction implements RequestHandlerInterface
 {
-    public function __invoke(Request $request, Response $response): Response
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $response->withJson([
+        return new JsonResponse([
             'name' => 'App API',
             'version' => '1.0',
         ]);
