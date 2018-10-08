@@ -11,6 +11,7 @@ use Slim\App;
 return function (App $app, ContainerInterface $container) {
 
     $app->add(new CM($container, Middleware\DomainExceptionMiddleware::class));
+    $app->add(new CM($container, Middleware\ValidationExceptionMiddleware::class));
 
     $app->get('/', Action\HomeAction::class . ':handle');
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\Http\Action\Auth\SignUp;
 
+use Api\Http\ValidationException;
 use Api\Http\Validator\Validator;
 use Api\Model\User\UseCase\SignUp\Confirm\Command;
 use Api\Model\User\UseCase\SignUp\Confirm\Handler;
@@ -33,7 +34,7 @@ class ConfirmAction implements RequestHandlerInterface
         $command->token = $body['token'] ?? '';
 
         if ($errors = $this->validator->validate($command)) {
-            return new JsonResponse(['errors' => $errors->toArray()], 400);
+            throw new ValidationException($errors);
         }
 
         $this->handler->handle($command);
