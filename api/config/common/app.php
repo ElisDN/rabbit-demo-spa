@@ -18,7 +18,13 @@ return [
 
     Action\Auth\SignUp\RequestAction::class => function (ContainerInterface $container) {
         return new Action\Auth\SignUp\RequestAction(
-            $container->get( Model\User\UseCase\SignUp\Request\Handler::class)
+            $container->get(Model\User\UseCase\SignUp\Request\Handler::class)
         );
-    }
+    },
+
+    Action\Auth\SignUp\ConfirmAction::class => function (ContainerInterface $container) {
+        return new Action\Auth\SignUp\ConfirmAction(
+            $container->get(Model\User\UseCase\SignUp\Confirm\Handler::class)
+        );
+    },
 ];

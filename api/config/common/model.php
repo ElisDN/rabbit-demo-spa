@@ -44,6 +44,13 @@ return [
         );
     },
 
+    UserModel\UseCase\SignUp\Confirm\Handler::class => function (ContainerInterface $container) {
+        return new UserModel\UseCase\SignUp\Confirm\Handler(
+            $container->get(UserModel\Entity\User\UserRepository::class),
+            $container->get(Api\Model\Flusher::class)
+        );
+    },
+
     'config' => [
         'auth' => [
             'signup_confirm_interval' => 'PT5M',
