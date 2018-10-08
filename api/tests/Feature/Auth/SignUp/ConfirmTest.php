@@ -38,6 +38,27 @@ class ConfirmTest extends WebTestCase
         self::assertEquals([], $data);
     }
 
+    public function testNotValid(): void
+    {
+        $response = $this->post('/auth/signup/confirm', [
+            'email' => 'not-valid',
+            'token' => '',
+        ]);
+
+        self::assertEquals(400, $response->getStatusCode());
+        self::assertJson($content = $response->getBody()->getContents());
+
+        $data = json_decode($content, true);
+
+        self::assertEquals([
+            'errors' => [
+                'email' => 'This value is not a valid email address.',
+                'token' => 'This value should not be blank.',
+
+            ],
+        ], $data);
+    }
+
     public function testNotExistingUser(): void
     {
         $response = $this->post('/auth/signup/confirm', [
