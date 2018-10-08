@@ -11,10 +11,12 @@ if (file_exists('.env')) {
     (new Dotenv())->load('.env');
 }
 
-$config = require 'config/config.php';
-$container = new \Slim\Container($config);
-$app = new \Slim\App($container);
+(function () {
+    $config = require 'config/config.php';
+    $container = new \Slim\Container($config);
+    $app = new \Slim\App($container);
 
-(require 'config/routes.php')($app);
+    (require 'config/routes.php')($app);
 
-$app->run();
+    $app->run();
+})();
