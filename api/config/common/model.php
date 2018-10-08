@@ -29,6 +29,21 @@ return [
         return new UserInfrastructure\Service\RandConfirmTokenizer(new \DateInterval($interval));
     },
 
+    UserModel\Entity\User\UserRepository::class => function (ContainerInterface $container) {
+        return new UserInfrastructure\Entity\DoctrineUserRepository(
+            $container->get(\Doctrine\ORM\EntityManagerInterface::class)
+        );
+    },
+
+    UserModel\UseCase\SignUp\Request\Handler::class => function (ContainerInterface $container) {
+        return new UserModel\UseCase\SignUp\Request\Handler(
+            $container->get(UserModel\Entity\User\UserRepository::class),
+            $container->get(UserModel\Service\PasswordHasher::class),
+            $container->get(UserModel\Service\ConfirmTokenizer::class),
+            $container->get(Api\Model\Flusher::class)
+        );
+    },
+
     'config' => [
         'auth' => [
             'signup_confirm_interval' => 'PT5M',
