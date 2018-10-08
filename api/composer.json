@@ -12,6 +12,7 @@
         "slim/slim": "^3.11",
         "symfony/console": "^4.1",
         "symfony/dotenv": "^4.1",
+        "symfony/validator": "^4.1",
         "zendframework/zend-config-aggregator": "^1.1",
         "zendframework/zend-diactoros": "^2.0"
     },
