@@ -1,6 +1,7 @@
 FROM php:7.1-fpm
 
-RUN apt-get update && apt-get install -y libmcrypt-dev \
-    && docker-php-ext-install mcrypt
+RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install mcrypt pdo_pgsql pgsql
 
-WORKDIR /var/www/api
+WORKDIR /var/www
