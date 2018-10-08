@@ -20,6 +20,11 @@ $container = require 'config/container.php';
 
 $cli = new Application('Application console');
 
+$entityManager = $container->get(EntityManagerInterface::class);
+$cli->getHelperSet()->set(new EntityManagerHelper($entityManager), 'em');
+
+Doctrine\ORM\Tools\Console\ConsoleRunner::addCommands($cli);
+
 $commands = $container->get('config')['console']['commands'];
 foreach ($commands as $command) {
     $cli->add($container->get($command));
