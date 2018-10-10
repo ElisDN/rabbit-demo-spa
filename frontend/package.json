@@ -11,6 +11,7 @@
     "@fortawesome/fontawesome-free": "^5.3.1",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
+    "jwt-decode": "^2.2.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

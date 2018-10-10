@@ -6,6 +6,8 @@
           Login
         </div>
         <div class="card-body">
+          <b-alert variant="danger" v-if="error" show>{{ error }}</b-alert>
+
           <b-form @submit="login">
             <b-form-group label="Email address" label-for="loginEmail">
               <b-form-input id="loginEmail" type="email" v-model="form.email" required></b-form-input>
@@ -28,14 +30,28 @@
         form: {
           email: this.$store.state.currentEmail,
           password: null,
-        }
+        },
+        error: null
       }
     },
     methods: {
       login(event) {
         event.preventDefault();
-        alert('Login with ' + this.$data.form.email);
-        return false;
+        this.error = null;
+        this.$store.dispatch('login', {
+          username: this.form.email,
+          password: this.form.password,
+        })
+          .then(() => {
+            this.$router.push({name: 'home'});
+          })
+          .catch(error => {
+            if (error.response) {
+              this.error = error.response.data.error;
+            } else {
+              console.log(error.message);
+            }
+          });
       }
     }
   }
