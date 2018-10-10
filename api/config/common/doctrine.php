@@ -37,13 +37,19 @@ return [
         'doctrine' => [
             'dev_mode' => false,
             'cache_dir' => 'var/cache/doctrine',
-            'metadata_dirs' => ['src/Model/User/Entity'],
+            'metadata_dirs' => [
+                'src/Model/User/Entity',
+                'src/Model/OAuth/Entity',
+            ],
             'connection' => [
                 'url' => getenv('API_DB_URL'),
             ],
             'types' => [
                 Type\User\UserIdType::NAME => Type\User\UserIdType::class,
                 Type\User\EmailType::NAME => Type\User\EmailType::class,
+                Type\OAuth\ClientType::NAME => Type\OAuth\ClientType::class,
+                Type\OAuth\ScopesType::NAME => Type\OAuth\ScopesType::class,
+
             ],
         ],
     ],
