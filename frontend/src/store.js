@@ -58,6 +58,31 @@ export default new Vuex.Store({
         delete axios.defaults.headers.common['Authorization'];
         resolve()
       });
+    },
+    refresh(context) {
+      return new Promise((resolve, reject) => {
+        if (context.state.user) {
+          delete axios.defaults.headers.common['Authorization'];
+          return axios.post('/oauth/auth', {
+            grant_type: 'refresh_token',
+            refresh_token: context.state.user.refresh_token,
+            client_id: 'app',
+            client_secret: '',
+          })
+            .then(response => {
+              const user = response.data;
+              localStorage.setItem('user', JSON.stringify(user));
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.access_token;
+              context.commit('login', user);
+              resolve(response)
+            })
+            .catch(error => {
+              context.dispatch('logout');
+              reject(error)
+            })
+        }
+        resolve()
+      });
     }
   }
 })
