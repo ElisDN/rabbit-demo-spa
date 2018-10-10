@@ -19,21 +19,18 @@ class Handler
     private $hasher;
     private $tokenizer;
     private $flusher;
-    private $dispatcher;
 
     public function __construct(
         UserRepository $users,
         PasswordHasher $hasher,
         ConfirmTokenizer $tokenizer,
-        Flusher $flusher,
-        EventDispatcher $dispatcher
+        Flusher $flusher
     )
     {
         $this->users = $users;
         $this->hasher = $hasher;
         $this->tokenizer = $tokenizer;
         $this->flusher = $flusher;
-        $this->dispatcher = $dispatcher;
     }
 
     public function handle(Command $command): void
@@ -54,8 +51,6 @@ class Handler
 
         $this->users->add($user);
 
-        $this->flusher->flush();
-
-        $this->dispatcher->dispatch(...$user->releaseEvents());
+        $this->flusher->flush($user);
     }
 }
