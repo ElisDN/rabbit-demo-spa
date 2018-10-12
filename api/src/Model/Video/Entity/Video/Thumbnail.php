@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Api\Model\Video\Entity\Video;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Embeddable
+ */
 class Thumbnail
 {
     /**
      * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
     private $path;
     /**
      * @var Size
+     * @ORM\Embedded(class="Size")
      */
     private $size;
 
