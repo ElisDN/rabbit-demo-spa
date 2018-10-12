@@ -64,3 +64,12 @@ services:
         ports:
             - "1025:1025"
             - "8082:8025"
+
+    storage-nginx:
+        build:
+            context: ./storage/docker
+            dockerfile: nginx.docker
+        volumes:
+            - ./storage:/var/www/storage
+        ports:
+            - "8083:80"
