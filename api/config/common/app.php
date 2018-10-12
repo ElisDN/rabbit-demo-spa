@@ -6,6 +6,7 @@ use Api\Http\Action;
 use Api\Http\Middleware;
 use Api\Http\Validator\Validator;
 use Api\Model;
+use Api\ReadModel;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -60,6 +61,12 @@ return [
         return new Action\Auth\OAuthAction(
             $container->get(\League\OAuth2\Server\AuthorizationServer::class),
             $container->get(LoggerInterface::class)
+        );
+    },
+
+    Action\Profile\ShowAction::class => function (ContainerInterface $container) {
+        return new Action\Profile\ShowAction(
+            $container->get(ReadModel\User\UserReadRepository::class)
         );
     },
 ];

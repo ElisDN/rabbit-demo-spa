@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use Api\Infrastructure;
 use Api\Infrastructure\Model\User as UserInfrastructure;
 use Api\Model\User as UserModel;
+use Api\ReadModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 
@@ -49,6 +51,12 @@ return [
         return new UserModel\UseCase\SignUp\Confirm\Handler(
             $container->get(UserModel\Entity\User\UserRepository::class),
             $container->get(Api\Model\Flusher::class)
+        );
+    },
+
+    ReadModel\User\UserReadRepository::class => function (ContainerInterface $container) {
+        return new Infrastructure\ReadModel\User\DoctrineUserReadRepository(
+            $container->get(\Doctrine\ORM\EntityManagerInterface::class)
         );
     },
 
