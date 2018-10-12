@@ -42,6 +42,11 @@ export default new Router({
       path: '/author/create',
       name: 'author.create',
       component: () => import('./views/Author/Create.vue')
+    },
+    {
+      path: '/author/upload',
+      name: 'author.upload',
+      component: () => import('./views/Author/Video/Upload.vue')
     }
   ]
 })
