@@ -4,4 +4,6 @@ RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev ffmpeg \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install mcrypt pdo_pgsql pgsql
 
+ADD ./php/default.ini /usr/local/etc/php/conf.d/default.ini
+
 WORKDIR /var/www
