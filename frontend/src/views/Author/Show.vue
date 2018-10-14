@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <div class="card">
+    <div class="card mb-3">
       <div class="card-header">
         Author
       </div>
@@ -13,6 +13,29 @@
         </tbody>
       </table>
     </div>
+
+    <div v-if="author">
+      <router-link class="btn btn-success" :to="{name: 'author.upload'}">Upload Video</router-link>
+
+      <div v-if="videos.length">
+        <div class="my-3">
+          <div class="row">
+            <div class="col-md-4" v-for="video in videos">
+              <div class="card mb-3">
+                <router-link :to="{name: 'author.video', params: {id: video.id}}">
+                  <img class="card-img-top" :src="video.thumbnail.url" alt="">
+                </router-link>
+                <div class="card-body">
+                  <p class="card-text">
+                    <router-link :to="{name: 'author.video', params: {id: video.id}}">{{ video.name }}</router-link>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,6 +46,8 @@
     data() {
       return {
         author: null,
+        count: null,
+        videos: []
       }
     },
     mounted() {
@@ -33,6 +58,12 @@
             this.$router.push({name: 'author.create'});
           } else {
             this.author = response.data;
+            axios
+              .get('/author/videos')
+              .then(response => {
+                  this.count = response.data.count;
+                  this.videos = response.data.data;
+              })
           }
         })
     }
