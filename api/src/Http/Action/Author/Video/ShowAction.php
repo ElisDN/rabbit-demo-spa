@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\Http\Action\Author\Video;
 
+use Api\Http\VideoUrl;
 use Api\Model\Video\Entity\Video\File;
 use Api\Model\Video\Entity\Video\Video;
 use Api\ReadModel\Video\VideoReadRepository;
@@ -15,10 +16,12 @@ use Zend\Diactoros\Response\JsonResponse;
 class ShowAction implements RequestHandlerInterface
 {
     private $videos;
+    private $url;
 
-    public function __construct(VideoReadRepository $videos)
+    public function __construct(VideoReadRepository $videos, VideoUrl $url)
     {
         $this->videos = $videos;
+        $this->url = $url;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -40,7 +43,7 @@ class ShowAction implements RequestHandlerInterface
             'name' => $video->getName(),
             'files' => array_map(function (File $file) {
                 return [
-                    'path' => $file->getPath(),
+                    'url' => $this->url->url($file->getPath()),
                     'format' => $file->getFormat(),
                     'size' => [
                         'width' => $file->getSize()->getWidth(),

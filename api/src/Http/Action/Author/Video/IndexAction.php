@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Api\Http\Action\Author\Video;
 
+use Api\Http\VideoUrl;
 use Api\Model\Video\Entity\Video\Video;
 use Api\ReadModel\Video\AuthorReadRepository;
 use Api\ReadModel\Video\VideoReadRepository;
@@ -16,11 +17,13 @@ class IndexAction implements RequestHandlerInterface
 {
     private $authors;
     private $videos;
+    private $url;
 
-    public function __construct(AuthorReadRepository $authors, VideoReadRepository $videos)
+    public function __construct(AuthorReadRepository $authors, VideoReadRepository $videos, VideoUrl $url)
     {
         $this->authors = $authors;
         $this->videos = $videos;
+        $this->url = $url;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -43,7 +46,7 @@ class IndexAction implements RequestHandlerInterface
             'id' => $video->getId()->getId(),
             'name' => $video->getName(),
             'thumbnail' => [
-                'path' => $video->getThumbnail()->getPath(),
+                'url' => $this->url->url($video->getThumbnail()->getPath()),
                 'width' => $video->getThumbnail()->getSize()->getWidth(),
                 'height' => $video->getThumbnail()->getSize()->getHeight(),
             ],

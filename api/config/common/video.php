@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Api\Http\VideoUrl;
 use Api\Infrastructure\Model\Video\Service\Processor\Converter\FFMpegMp4Converter;
 use Api\Infrastructure\Model\Video\Service\Processor\Converter\FFMpegWebmConverter;
 use Api\Infrastructure\Model\Video\Service\Processor\FormatDetector\FFProbeFormatDetector;
@@ -57,9 +58,16 @@ return [
         return $preferences;
     },
 
+    VideoUrl::class => function (ContainerInterface $container) {
+        return new VideoUrl(
+            $container->get('config')['video']['base_url']
+        );
+    },
+
     'config' => [
         'video' => [
             'upload_path' => dirname(__DIR__, 3) . '/storage/public/video',
+            'base_url' => getenv('API_STORAGE_URL'),
             'sizes' => [
                 [640, 360],
                 [854, 480],
