@@ -38,6 +38,16 @@ axios.interceptors.response.use(null, error => {
     });
 });
 
+let socket = new WebSocket(process.env.VUE_APP_WS_URL);
+
+socket.onopen = function() {
+  alert('Connected');
+};
+
+socket.onmessage = function(event) {
+  alert('Received: ' + event.data);
+};
+
 Vue.use(BootstrapVue);
 
 new Vue({

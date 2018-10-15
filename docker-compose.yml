@@ -91,3 +91,12 @@ services:
             - ./storage:/var/www/storage
         ports:
             - "8083:80"
+
+    websocket-nodejs:
+        image: node:10.11-jessie
+        volumes:
+            - ./websocket:/var/www/websocket
+        ports:
+            - "8084:8000"
+        working_dir: /var/www/websocket
+        tty: true
