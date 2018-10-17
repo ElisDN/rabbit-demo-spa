@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     currentEmail: null,
     user: JSON.parse(localStorage.getItem('user')),
+    notifications: []
   },
   getters: {
     isLoggedIn(state) {
@@ -23,6 +24,12 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.user = null;
+    },
+    addNotification(state, notification) {
+      state.notifications.push(notification);
+    },
+    removeNotification(state, index) {
+      delete state.notifications[index];
     }
   },
   actions: {
