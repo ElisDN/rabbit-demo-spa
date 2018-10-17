@@ -36,6 +36,7 @@ services:
             - api-postgres
             - mailer
             - kafka
+            - rabbitmq
     api-php-cli:
         build:
             context: ./api/docker
@@ -47,6 +48,7 @@ services:
             - api-postgres
             - mailer
             - kafka
+            - rabbitmq
         working_dir: /var/www/api
         tty: true
     api-postgres:
@@ -100,3 +102,15 @@ services:
             - "8084:8000"
         working_dir: /var/www/websocket
         tty: true
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        environment:
+            RABBITMQ_ERLANG_COOKIE: SWQOKODSQALRPCLNMEQG
+            RABBITMQ_DEFAULT_USER: rabbit
+            RABBITMQ_DEFAULT_PASS: rabbit
+        ports:
+            - "8085:15672"
+            - "5672:5672"
+        volumes:
+            - ./rabbitmq/docker/enabled_plugins:/etc/rabbitmq/enabled_plugins
