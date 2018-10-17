@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use Kafka\ConsumerConfig;
+use Kafka\Producer;
 use Kafka\ProducerConfig;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 return [
     ProducerConfig::class => function (ContainerInterface $container) {
@@ -24,6 +26,13 @@ return [
         $config->setMetadataBrokerList($params['broker_list']);
         $config->setBrokerVersion('1.1.0');
         return $config;
+    },
+
+    Producer::class => function (ContainerInterface $container) {
+        $container->get(ProducerConfig::class);
+        $producer = new Producer();
+        $producer->setLogger($container->get(LoggerInterface::class));
+        return $producer;
     },
 
     'config' => [
