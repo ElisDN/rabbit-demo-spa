@@ -8,6 +8,7 @@ use Api\Model\AggregateRoot;
 use Api\Model\EventTrait;
 use Api\Model\Video\Entity\Author\Author;
 use Api\Model\Video\Entity\Video\Event\VideoCreated;
+use Api\Model\Video\Entity\Video\Event\VideoFileAdded;
 use Api\Model\Video\Entity\Video\Event\VideoPublished;
 use Api\Model\Video\Entity\Video\Event\VideoRemoved;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -98,7 +99,8 @@ class Video implements AggregateRoot
 
     public function addFile(string $path, string $format, Size $size): void
     {
-        $this->files->add(new File($this, $path, $format, $size));
+        $this->files->add($file = new File($this, $path, $format, $size));
+        $this->recordEvent(new VideoFileAdded($this->id, $this->author->getId(), $file));
     }
 
     public function publish(\DateTimeImmutable $date): void
