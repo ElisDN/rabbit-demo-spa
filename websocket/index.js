@@ -41,5 +41,11 @@ let consumer = new kafka.Consumer(
 );
 
 consumer.on('message', function (message) {
-  console.log(message);
+  console.log('consumed: %s', message.value);
+  let value = JSON.parse(message.value);
+  server.clients.forEach(ws => {
+    if (ws.user_id === value.user_id) {
+      ws.send(message.value);
+    }
+  })
 });
