@@ -15,12 +15,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ProduceCommand extends Command
 {
     private $logger;
-    private $brokers;
+    private $config;
 
-    public function __construct(LoggerInterface $logger, string $brokers)
+    public function __construct(LoggerInterface $logger, ProducerConfig $config)
     {
         $this->logger = $logger;
-        $this->brokers = $brokers;
+        $this->config = $config;
         parent::__construct();
     }
 
@@ -35,13 +35,6 @@ class ProduceCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<comment>Produce message</comment>');
-
-        $config = ProducerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList($this->brokers);
-        $config->setBrokerVersion('1.1.0');
-        $config->setRequiredAck(1);
-        $config->setIsAsyn(false);
 
         $producer = new Producer();
         $producer->setLogger($this->logger);

@@ -14,12 +14,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ConsumeCommand extends Command
 {
     private $logger;
-    private $brokers;
+    private $config;
 
-    public function __construct(LoggerInterface $logger, string $brokers)
+    public function __construct(LoggerInterface $logger, ConsumerConfig $config)
     {
         $this->logger = $logger;
-        $this->brokers = $brokers;
+        $this->config = $config;
         parent::__construct();
     }
 
@@ -32,12 +32,8 @@ class ConsumeCommand extends Command
     {
         $output->writeln('<comment>Consume messages</comment>');
 
-        $config = ConsumerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList($this->brokers);
-        $config->setBrokerVersion('1.1.0');
-        $config->setGroupId('demo');
-        $config->setTopics(['notifications']);
+        $this->config->setGroupId('demo');
+        $this->config->setTopics(['notifications']);
 
         $consumer = new Consumer();
         $consumer->setLogger($this->logger);
