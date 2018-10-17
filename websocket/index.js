@@ -3,7 +3,7 @@ let WebSocket = require('ws');
 let fs = require('fs');
 let jwt = require('jsonwebtoken');
 let dotenv = require('dotenv');
-let kafka = require('kafka-node');
+let amqp = require('amqplib/callback_api');
 
 dotenv.load();
 
@@ -27,25 +27,21 @@ server.on('connection', function (ws, request) {
   });
 });
 
-let client = new kafka.KafkaClient({
-  kafkaHost: process.env.WS_KAFKA_BROKER_LIST
-});
-
-let consumer = new kafka.Consumer(
-  client,
-  [
-    {topic: 'notifications', partition: 0}
-  ], {
-    groupId: 'websocket'
+amqp.connect(process.env.WS_AMQP_URI, function(err, conn) {
+  if (err) {
+    console.log(err);
+    return;
   }
-);
-
-consumer.on('message', function (message) {
-  console.log('consumed: %s', message.value);
-  let value = JSON.parse(message.value);
-  server.clients.forEach(ws => {
-    if (ws.user_id === value.user_id) {
-      ws.send(message.value);
-    }
-  })
+  conn.createChannel(function(err, ch) {
+    let queue = 'notifications';
+    ch.consume(queue, function(message) {
+      console.log('consumed: %s', message.content);
+      let value = JSON.parse(message.content);
+      server.clients.forEach(ws => {
+        if (ws.user_id === value.user_id) {
+          ws.send(message.content.toString());
+        }
+      })
+    }, {noAck: true});
+  });
 });
